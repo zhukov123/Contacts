@@ -17,7 +17,7 @@ GET http://contactsvk.azurewebsites.net/api/contact/[id]
 
 ### Create record (complete record with Id and LastModified time will be returned)
 POST http://contactsvk.azurewebsites.net/api/contact/
-Json content sample (raw)
+Json content sample (raw)  
 
 {  
   "firstName": "Darth",  
