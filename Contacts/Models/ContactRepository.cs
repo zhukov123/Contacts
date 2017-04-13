@@ -14,7 +14,14 @@ namespace Contacts.Models
         private MongoClient _client;
         private IMongoDatabase _database;
         IMongoCollection<Contact> _collection;
-
+        
+        
+        /// <summary>
+        /// Initialize Contact repo with connection string, database and collection for MongoDB.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="database"></param>
+        /// <param name="collection"></param>
         public ContactRepository(string connectionString, string database, string collection)
         {
                              
@@ -24,27 +31,43 @@ namespace Contacts.Models
             _collection = _database.GetCollection<Contact>(collection);
 
             if (_collection.Find(_ => true).ToList().Count == 0)
-                Add(new Contact { FirstName = "Vishwa", LastName = "Kapoor", Email = "vishwa.kapoor@gmail.com", PhoneNumber = "936-666-1024" });
+                Add(new Contact { FirstName = "Darth", LastName = "Vader", Email = "vader@empire.com", PhoneNumber = "123-22VADER" });
 
         }
 
+        /// <summary>
+        /// Return all contacts in collection
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Contact> GetAll()
         {
             return _collection.Find(_ => true).ToList();
 
         }
-
+        /// <summary>
+        /// Add one contact to collection
+        /// </summary>
+        /// <param name="item"></param>
         public void Add(Contact item)
         {
             _collection.InsertOne(item);
         }
 
+        /// <summary>
+        /// Find and return one contact from collection, by Id, if found
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public Contact Find(string key)
         {
             var filter = Builders<Contact>.Filter.Eq("Id", key);
-            return _collection.Find(filter).First();
+            return _collection.Find(filter).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Remove one item from collection by Id, if it exists
+        /// </summary>
+        /// <param name="key"></param>
         public void Remove(string key)
         {
             
@@ -52,6 +75,10 @@ namespace Contacts.Models
             _collection.DeleteOne(filter);
         }
 
+        /// <summary>
+        /// Replace one item in collection by Id (Update)
+        /// </summary>
+        /// <param name="item"></param>
         public void Update(Contact item)
         {
             

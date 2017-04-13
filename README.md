@@ -29,7 +29,8 @@ Json content sample (raw)
 
 ### Update Single Record (By Id)
 PUT http://contactsvk.azurewebsites.net/api/contact/[id]
-Json content sample (raw)
+Json content sample (raw) Id obtained from GetAll query_  
+  
 {  
   "id": "58eefe267861602284469564",  
   "firstName": "Darth",  

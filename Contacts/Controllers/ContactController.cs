@@ -14,17 +14,30 @@ namespace Contacts
         
         private readonly IContactRepository _contactRepository;
 
+        /// <summary>
+        /// Init controller with repository
+        /// </summary>
+        /// <param name="contactRepository"></param>
         public ContactController(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
         }
 
+        /// <summary>
+        /// Get All Records
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<Contact> GetAll()
         {
             return _contactRepository.GetAll();
         }
 
+        /// <summary>
+        /// Get Single Record (By Id)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = "GetContact")]
         public IActionResult GetById(string id)
         {
@@ -36,6 +49,11 @@ namespace Contacts
             return new ObjectResult(item);
         }
 
+        /// <summary>
+        /// Create record (complete record with Id and LastModified time will be returned)
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Create([FromBody] Contact item)
         {
@@ -50,6 +68,13 @@ namespace Contacts
 
         }
 
+
+        /// <summary>
+        /// Update Single Record (By Id)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Update(string id, [FromBody] Contact item)
         {
@@ -64,19 +89,18 @@ namespace Contacts
                 return NotFound();
             }
 
-            /*contact.FirstName = item.FirstName;
-            contact.LastName = item.LastName;
-            contact.Email = item.Email;
-            contact.PhoneNumber = item.PhoneNumber;
-            contact.StatusIsActive = item.StatusIsActive;
-
-            _contactRepository.Update(contact);
-            return new NoContentResult();*/
             item.LastModified = DateTime.UtcNow;
             _contactRepository.Update(item);
-            return new NoContentResult();
+            //return new NoContentResult();
+            return CreatedAtRoute("GetContact", new { id = item.Id }, item);
         }
 
+
+        /// <summary>
+        /// Remove Record (By Id)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
