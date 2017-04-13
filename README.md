@@ -28,7 +28,7 @@ Json content sample (raw)
 }
 
 ### Update Single Record (By Id)
-http://contactsvk.azurewebsites.net/api/contact/[id]
+PUT http://contactsvk.azurewebsites.net/api/contact/[id]
 Json content sample (raw)
 {  
   "id": "58eefe267861602284469564",  
